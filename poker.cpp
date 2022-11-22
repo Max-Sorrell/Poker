@@ -32,7 +32,7 @@ int main() {
 
     string deck[5];
 
-  //Assigns 3 random cards to the deck - this can be adapted 
+    //Assigns 3 random cards to the deck - this can be adapted 
     for (int i = 0; i < 3; i++) {
         y = rand() % 52 + 1; //get random number between 1 and 52
         //cout << "\nRandom: " << y << "\n";
@@ -91,9 +91,9 @@ int main() {
         phtssuit = players_hand_to_string[1];
 
 
-       // cout << "Test: " << phtsvalue << endl;
+        // cout << "Test: " << phtsvalue << endl;
         finalValue[p] = phtsvalue;
-       //cout << "Test: " << phtssuit << endl;
+        //cout << "Test: " << phtssuit << endl;
         finalSuit[p] = phtssuit;
 
     }
@@ -146,7 +146,7 @@ int main() {
 
     //char finalSuit[5] = {'D', 'D', 'D', 'D', 'S'};
 
-   
+
 
     char temp;
     bool royalFlush = false;
@@ -155,15 +155,24 @@ int main() {
     bool flush = false;
     bool straight = true;
 
-   // int finalValue[5] = { 9, 11, 7, 8, 5 };
+    // int finalValue[5] = { 9, 11, 7, 8, 5 };
 
-  //Bubble sort to organise finalValue in decending order
+    //Bubble sort to organise finalValue in decending order
+    //in order to get the final suit to "move" with the final value, we need to move it using this bubble sort.
+
+    char tempChar;
+
+
     for (int i = 0; i < 5; i++) {
         for (int n = 0; n < 5; n++) {
             if (finalValue[n] < finalValue[n + 1]) {
                 temp = finalValue[n + 1];
                 finalValue[n + 1] = finalValue[n];
                 finalValue[n] = temp;
+
+                tempChar = finalSuit[n + 1];
+                finalSuit[n + 1] = finalSuit[n];
+                finalSuit[n] = tempChar;
             }
         }
     } // organises array so cards are in descending order
@@ -189,65 +198,80 @@ int main() {
 
     std::cout << "\nStraight: " << straight;
 
-  //Checks what type of flush flush
+    //Checks what type of flush flush
     if (flush == true) {
         if (finalValue[0] == 14 && straight == true) {
             royalFlush = true;
             handResult = "Royal Flush";
-        } else if (straight == true) {
+        }
+        else if (straight == true) {
             handResult = "Straight Flush";
-        } else {
+        }
+        else {
             handResult = "Flush";
         }
     }
 
-   
-  int similarCards = 0;
-  int tempCard;
+
+    int similarCards = 0;
+    int tempCard;
 
     for (int i = 0; i < 5; i++) {
         tempCard = finalValue[i];
-        if (tempCard == finalValue[i+1]){
-          similarCards += 1;
-        }  
+        if (tempCard == finalValue[i + 1]) {
+            similarCards += 1;
+        }
     }
 
     std::cout << "\n" << similarCards;
 
-    if (similarCards == 3){
-      if (finalValue[1] != finalValue[3]){
-        handResult = "Full House";
-      } else {
-        handResult = "Four of a Kind";
-      }
-    } else if (similarCards == 2) {
-      handResult = "Three of a Kind";
-    } else if (similarCards == 1){
-      handResult = "Pair";
-    } 
-  //Two pairs. You goddamn pedantic prick
-    
+    if (similarCards == 3) {
+        if (finalValue[1] != finalValue[3]) {
+            handResult = "Full House";
+        }
+        else {
+            handResult = "Four of a Kind";
+        }
+    }
+    else if (similarCards == 2) {
+        if (finalValue[1] != finalValue[3]) {
+            handResult = "Two pair";
+        }
+        else {
+            handResult = "Three of a Kind";
+        }
+    }
+    else if (similarCards == 1) {
+        handResult = "Pair";
+    }
+    //Two pairs. You goddamn pedantic prick
+
 
     std::cout << "\n" << handResult << "\n";
     char convertedFinalSuit;
-    if (handResult == " "){
-      if (finalValue[0] == 14){
-        convertedFinalSuit = 'A';
-        std::cout << "HIGH CARD: " << convertedFinalSuit << finalSuit[0] << "\n";
-      } else if (finalValue[0] == 13){
-        convertedFinalSuit = 'K';
-        std::cout << "HIGH CARD: " << convertedFinalSuit << finalSuit[0] <<"\n";
-      } else if (finalValue[0] == 12){
-        convertedFinalSuit = 'Q';
-        std::cout << "HIGH CARD: " << convertedFinalSuit << finalSuit[0] <<"\n";
-      } else if (finalValue[0] == 11){
-        convertedFinalSuit = 'J';
-        std::cout << "HIGH CARD: " << convertedFinalSuit << finalSuit[0] <<"\n";
-      } else if (finalValue[0] == 10){
-        convertedFinalSuit = 'T';
-        std::cout << "HIGH CARD: " << convertedFinalSuit << finalSuit[0] <<"\n";
-      } else
-        std::cout << "HIGH CARD: " << finalValue[0] << finalSuit[0] <<"\n";
+    if (handResult == " ") {
+        if (finalValue[0] == 14) {
+            convertedFinalSuit = 'A';
+            std::cout << "HIGH CARD: " << convertedFinalSuit << finalSuit[0] << "\n";
+        }
+        else if (finalValue[0] == 13) {
+            convertedFinalSuit = 'K';
+            std::cout << "HIGH CARD: " << convertedFinalSuit << finalSuit[0] << "\n";
+        }
+        else if (finalValue[0] == 12) {
+            convertedFinalSuit = 'Q';
+            std::cout << "HIGH CARD: " << convertedFinalSuit << finalSuit[0] << "\n";
+        }
+        else if (finalValue[0] == 11) {
+            convertedFinalSuit = 'J';
+            std::cout << "HIGH CARD: " << convertedFinalSuit << finalSuit[0] << "\n";
+        }
+        else if (finalValue[0] == 10) {
+            convertedFinalSuit = 'T';
+            std::cout << "HIGH CARD: " << convertedFinalSuit << finalSuit[0] << "\n";
+        }
+        else
+            std::cout << "HIGH CARD: " << finalValue[0] << finalSuit[0] << "\n";
     }
 
     for (int p = 0; p < 5; p++) {
@@ -255,32 +279,32 @@ int main() {
 
     }
 
-   // std::cout << flush;
+    // std::cout << flush;
 
 
 
-    /*
-    we now have each card which the player has been dealt as an int and a char.
-    we now need to work out the win conditions
-    the win conditions are:
+     /*
+     we now have each card which the player has been dealt as an int and a char.
+     we now need to work out the win conditions
+     the win conditions are:
 
-    pair
-    three of a kind
-    four of a kind
-    flush
-    these can all be done by comparing the chars and seeing if all 5 are the same. can be done in same if else block because only one is applicable.
+     pair
+     three of a kind
+     four of a kind
+     flush
+     these can all be done by comparing the chars and seeing if all 5 are the same. can be done in same if else block because only one is applicable.
 
-    two pairs
+     two pairs
 
-    boolean pair being false would mean we dont have to check for
-    {
-    straight - if the difference between the largest and smallest integer is 4 and there are no pairs then its a straight
-    straight flush - same as above but all the suits are also the same.
-    royal flush - add up all of the integers and if they total 60 and all of the suits are the same then its a royal flush!
-    }
+     boolean pair being false would mean we dont have to check for
+     {
+     straight - if the difference between the largest and smallest integer is 4 and there are no pairs then its a straight
+     straight flush - same as above but all the suits are also the same.
+     royal flush - add up all of the integers and if they total 60 and all of the suits are the same then its a royal flush!
+     }
 
-    full house - a pair and a three of a kind. tricky
+     full house - a pair and a three of a kind. tricky
 
 
-    */
+     */
 }
