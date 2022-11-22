@@ -215,16 +215,18 @@ int main() {
 
     int similarCards = 0;
     int tempCard;
+    bool threeOfAKindCheck = false;
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
         tempCard = finalValue[i];
         if (tempCard == finalValue[i + 1]) {
             similarCards += 1;
         }
+        if (tempCard == finalValue[i + 1] && finalValue[i + 1] == finalValue[i + 2]) { // i gave up and cheated here :)
+            threeOfAKindCheck = true;
+        }
+
     }
-
-    std::cout << "\n" << similarCards;
-
     if (similarCards == 3) {
         if (finalValue[1] != finalValue[3]) {
             handResult = "Full House";
@@ -234,11 +236,11 @@ int main() {
         }
     }
     else if (similarCards == 2) {
-        if (finalValue[1] != finalValue[3]) {
-            handResult = "Two pair";
+        if (threeOfAKindCheck == true) {
+            handResult = "Three of a Kind";
         }
         else {
-            handResult = "Three of a Kind";
+            handResult = "Two Pair";
         }
     }
     else if (similarCards == 1) {
